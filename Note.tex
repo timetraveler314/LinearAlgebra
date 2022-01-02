@@ -1,0 +1,272 @@
+%!TEX program = xelatex
+\documentclass[cn,hazy,blue,14pt,screen]{elegantnote}
+
+\usepackage{linear}
+
+\title{Linear Algebra Done Right 笔记}
+
+\author{timetraveler314}
+\institute{PigeonCrowd}
+
+%\version{2.30}
+\date{\zhtoday}
+
+\begin{document}
+
+\maketitle
+
+\section{向量空间}
+
+\section{有限维向量空间}
+
+\subsection{张成空间与线性无关}
+
+\begin{theorem}
+    \label{thm-2A-p-11}
+    （习题11）设 $v_1, \cdots , v_m$ 在 $V$ 中线性无关，且 $w\in V$.
+
+    则有 $v_1,\cdots,v_m$ 线性无关 $\iff$ $w\notin \spn(v_1,\cdots,v_m)$ .
+\end{theorem}
+
+\begin{theorem}
+    \label{thm-2A-p-14}
+    $\star$（习题14） $V$ 是无限维的当且仅当 $V$ 中存在一个向量序列 $v_1,v_2,\cdots$ 使得当 $m$ 是任意正整数时 $v_1,\cdots, v_m$ 都是线性无关的.
+\end{theorem}
+
+\begin{note}
+    本定理是证明向量空间无限维的常用方法.
+\end{note}
+
+\Sep
+
+\begin{problem}
+    证明区间 $[0,1]$ 上的所有实值连续函数构成的实向量空间是无限维的.
+\end{problem}
+
+\begin{proof}
+    构造 
+    $$
+    f_n(x)=\left\{ 
+        \begin{array}{ll}
+            x-1/n, & x\geqslant 1/n , \\
+            0, & 0 < x < 1/n.
+        \end{array} \right.
+    $$
+    显然 $f_n(x)$ 在 $[0,1]$ 上连续. 下证 $\forall n, f_{n+1} \notin \spn (f_1,\cdots, f_n)$ . 
+
+    假设 $f_{n+1} = a_1f_1 + \cdots + a_nf_n$ ，诸 $a_j \in \fs$ .注意我们有 $f_{n+1}\left(1/n\right) = \dfrac{1}{n} - \dfrac{1}{n+1} \neq 0$.
+    但是 $f_1(1/n) = \cdots = f_n(1/n) = 0$ . 由此，只有 $a_1 = \cdots = a_n = 0$.
+
+    此时 $f_{n+1} = 0$ ，产生矛盾. 故 $f_{n+1} \notin \spn (f_1,\cdots,f_n)$. 至此，我们证明了向量序列 $f_1,f_2,\cdots$ 当 $m$ 为任意正整数时 $f_1,\cdots,f_m$ 线性无关.
+
+    由定理\ref{thm-2A-p-14}，这个向量空间是无限维的.
+\end{proof}
+
+\sep
+
+\begin{problem}
+    设 $p_0,\cdots, p_m \in \polyn[\fs]{m}$ 使得对于每个 $j$ 都有 $p_j(2) = 0$. 证明 $p_0,\cdots, p_m$ 在 $\polyn[\fs]{m}$ 中不是线性无关的.
+\end{problem}
+
+\begin{proof}
+    假设 $p_0,\cdots, p_m$ 线性无关. 根据线性无关组的长度 $\leqslant$ 张成组的长度，且 $1,z,z^2,\cdots,z^m$ 张成 $\polyn[\fs]{m}$，有 $\polyn[\fs]{m}$ 线性无关组长度 $\leqslant m+1$.
+
+    我们构造组 $z,p_0,p_1,\cdots,p_m$ （长度为$m+2$），容易看出其是线性相关的.
+
+
+    由前面的问题11，我们知道这意味着 $\exists a_j$ （不全为0）$ \in \fs$ 使得 $z=a_0p_0+\cdots+a_mp_m$. 上式中由于 $p_j(2)=0$ ，可以得到 $2=0$ ，矛盾. 故$z\notin \spn(p_0,p_1,\cdots,p_m)$ .
+
+    再次根据问题11可知组 $z,p_0,p_1,\cdots,p_m$ 线性无关，矛盾. 假设不成立.
+\end{proof}
+
+\subsection{基}
+
+\begin{theorem}
+    \normalfont \textbf{线性无关组可扩充为基}
+
+    \itshape 在有限维向量空间中，每个线性无关的向量组都可以扩充为向量空间的基.
+\end{theorem}
+
+\begin{problem}
+    证明或给出反例： 若 $v_1,v_2,v_3,v_4$ 是 $V$ 的基，且 $U$ 是 $V$ 的子空间使得 $v_1,v_2 \in U$， $v_3,v_4\notin U$，则 $v_1,v_2$ 是 $U$ 的基.
+\end{problem}
+
+\begin{solution}
+    命题是错误的. 给出反例：
+    
+    取 $V = \rs^4$，一组基为 $(1,0,0,0),(0,1,0,0),(0,0,1,1),(0,0,0,1)$ .
+
+    令 $U=\{(x,y,z,0) \in \rs^4 : x,y,z \in \rs\}$，有$U$ 是 $V$ 的子空间且 $v_1,v_2 \in U$， $v_3,v_4\notin U$. 然而， $v_1,v_2$ 不是$U$的基.
+    在这里，不难看出 $v_1,v_2,v_3-v_4$是 $U$ 的一组基.
+\end{solution}
+
+\begin{remark}
+    这道问题的核心在于即使有 $v_3,v_4 \notin U$ ，我们仍然不能保证它们的任何一种线性组合都不在 $U$ 中，这导致单独$v_1,v_2$不足以张成$U$. 
+    我们可以修改条件让结论成立. 例如，让 $\spn(v_3,v_4) \cap U = \{0\}$ 就能保证结论成立.
+\end{remark}
+
+\begin{problem}
+    设 $U$ 和 $W$ 是 $V$ 的子空间使得 $U=V\oplus W$，并设 $u_1,\cdots,u_m$是 $U$ 的基，且 $w_1,\cdots,w_n$是 $W$ 的基. 证明：$u_1,\cdots,u_m,w_1,\cdots,w_n$ 是 $V$ 的基.
+\end{problem}
+
+\begin{proof}
+    记题设组为 $B$ . 
+    
+    先来证明 $B$ 在 $V$ 中线性无关. 假设 $\exists a_j, b_k \in \fs$ 使得
+    $$
+    a_1u_1+\cdots+a_mu_m+b_1w_1+\cdots+b_nw_n=0,
+    $$
+    则
+    $$
+    a_1u_1+\cdots+a_mu_m=-(b_1w_1+\cdots+b_nw_n) \in U\cup W = \{0\}.
+    $$ （由 $V=U\oplus W$）
+
+    因此 $a_1u_1+\cdots+a_mu_m=b_1w_1+\cdots+b_nw_n=0$.又$u_1,\cdots,u_m$是 $U$ 的基，且 $w_1,\cdots,w_n$是 $W$ 的基，必然有诸 $a_j,b_k=0$. 也即 $B$ 线性无关.
+
+    再证明 $B$ 张成 $V$ .假设 $v\in V$ ，根据 $V=U\oplus W$， $v=u+w$，其中 $u\in U, w\in W$ .因此每个 $v$ 都能写成 $u$和$w$基底的线性组合，故 $V=\spn B$.
+
+    综合两方面，得证.
+\end{proof}
+
+\subsection{维数}
+
+\begin{theorem}
+    \normalfont \textbf{和空间的维数}
+
+    \itshape 如果 $U_1,U_2$ 是有限维向量空间 $V$ 的子空间，则
+    $$
+    \dim (U_1+U_2) = \dim U_1 + \dim U_2 - \dim (U_1 \cap U_2).
+    $$
+    特别地，如果$U_1+U_2$ 是直和，$\dim (U_1+U_2) = \dim U_1 + \dim U_2$.
+    \begin{remark}
+        这一式子与两个集合的容斥原理相近，但三个集合的容斥原理并不能同样平移，反例： $V=\rs^2,U_1=\{(x,0):x\in\rs\},U_1=\{(0,y):y\in\rs\},U_1=\{(x,x):x\in\rs\}$ .
+
+        猜测这个结果可能因为子空间的封闭性.这导致两个子空间并没有和集合类似的“和运算”，由此可能“覆盖一些维度”.
+    \end{remark}
+\end{theorem}
+
+\Sep
+
+\begin{problem}
+    设 $v_1,\cdots,v_m$ 在 $V$ 中线性无关，并设 $w\in V$. 证明：
+    $$
+    \dim \spn (v_1+w,\cdots,v_m+w) \geqslant m-1.
+    $$
+\end{problem}
+
+\begin{proof}
+    注意 $v_j-v_1=(v_j+w)-(v_1+w) (2\leqslant j\leqslant m) \in \spn (v_1+w,\cdots,v_m+w).$
+
+    容易证明，各 $v_j-v_1$ 线性无关，这样得到了一个长度为 $m-1$ 的线性无关组. 由线性无关组可以扩充为基，即证.
+\end{proof}
+
+\newpage
+\section{线性映射}
+
+\subsection{向量空间的线性映射}
+
+\begin{definition}
+    \normalfont \textbf{Linear Map, 线性映射}
+
+    \itshape 从 $V$ 到$W$ 的线性映射是具有下列性质的函数 $T:V\to W:$
+
+    \begin{enumerate}
+        \item \normalfont \textbf{Additivity, 加性}
+        
+        \itshape \quad 对于所有 $u,v\in V$ 都有 $T(u+v) = T(u)+T(v)$.
+        \item \normalfont \textbf{Homogeneity, 齐性}
+        
+        \itshape \quad 对于所有 $\lambda\in\fs,v\in V$ 都有 $T(\lambda v) = \lambda T(v)$.
+    \end{enumerate}
+    \sep
+
+    \begin{remark}
+        加性和齐性不互相蕴含.下为两例
+
+        齐性： $\varphi : \rs^2\to\rs,\forall a\in\rs,v\in\rs^2$ 有 $\varphi(av)=a\varphi(v).$
+
+        我们求这样的$\varphi$.考虑模长函数，因为 $\left|av\right|=\left|a\right|\left|v\right|$. 但是这并不完全是齐性，需要想办法消去标量前的绝对值.
+
+        不妨考虑$p=3$时的范数$\varphi((x,y))=\sqrt[3]{x^3+y^3}$ 显然符合条件.
+
+        加性：为简化问题，我们选择域$\cs$或者$\qs [\sqrt{2}]$ 等等.
+
+        给出 $\varphi :\cs \to \cs, \varphi(a+b\Iu) =a$.可以验证不一定有齐性.
+
+        \begin{note}
+            不排除实某些域（如$\qs$）中加性蕴含齐性.
+        \end{note}
+    \end{remark}
+\end{definition}
+
+\Sep
+
+\begin{theorem}
+    \normalfont \textbf{线性映射把0映射为0}
+
+    \itshape 设 $T$ 是线性映射，则 $T(0)=0$ .
+\end{theorem}
+
+\sep
+
+\begin{theorem}
+    \label{thm-3.1-expansion-of-linear-map}
+    （线性映射的扩张）有限维向量空间 $V$ 的子空间  $U$ 上的线性映射可以扩张成 $V$ 上的线性映射.
+
+    即：$\forall S\in\lm{U}{W},\exists T\in\lm{V}{W} \ s.t.\ \forall u\in U, Tu=Su.$
+
+    \begin{proof}
+        令 $\veclist[m]{u}$ 为 $U$ 一组基. 由线性无关组可扩张为基，这可以扩张为 $V$ 的基： 
+        $$\veclist[m]{u},v_{m+1},\cdots,v_n.$$
+
+        定义如下的 $T\in \lm{V}{W}$：
+        $$
+        Tu_i=Su_i,Tv_j=0,1\leqslant i\leqslant m,m+1\leqslant j\leqslant n.
+        $$
+        又线性映射完全由其在基上的取值确定，这样的 $T$ 唯一存在. 容易验证其符合条件.
+    \end{proof}
+\end{theorem}
+
+\Sep
+
+\begin{problem}
+    设 $T\in \lm{V}{W} $，且$\veclist[m]{v}$ 是 $v$ 中向量组，使得 $\veclist[m]{Tv}$在$W$中线性无关.
+
+    证明： $\veclist[m]{v}$ 线性无关.
+\end{problem}
+
+\begin{proof}
+    假设 $\exists \numlist[m]{a} \in \fs$ 使
+    $$
+    0=\svecsum[m]{a}{v}.
+    $$
+    施以线性映射 $T$：
+
+    $$
+    {\color{red}0=T(0)}=T(\svecsum{a}{v})=\svecsum[m]{a}{Tv}
+    $$
+
+    这说明 $\numlist[m]{a} = 0$.
+\end{proof}
+
+\begin{note}
+    注意本题对于线性映射保持0不变的应用.
+\end{note}
+
+\sep
+
+\begin{problem}
+    设 $V$是有限维的，$\dim V>0$.设$W$是无限维的，证明：$\lm{V}{W}$无限维.
+\end{problem}
+
+\begin{proof}
+    我们利用定理\ref{thm-2A-p-14}来证明.
+
+    易知存在向量序列$w_1,w_2,\cdots\in W,\forall m, \veclist[m]{w}$线性无关.
+
+    构造 $T_i \in\lm{V}{W}, T(v_1) = w_i$ （$\veclist[m]{v}$是$V$的基）.由\ref{thm-3.1-expansion-of-linear-map}，每个 $T$都存在（不一定唯一）. 容易证明诸$T_i$线性无关.
+
+    再次应用\ref{thm-2A-p-14}，$\lm{V}{W}$无限维.
+\end{proof}
+
+\end{document}

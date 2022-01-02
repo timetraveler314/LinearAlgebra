@@ -1,0 +1,55 @@
+\newcommand{\Iu}{\mathrm{i}}
+
+\newcommand{\fs}{\mathbb{F}}
+\newcommand{\cs}{\mathbb{C}}
+\newcommand{\rs}{\mathbb{R}}
+\newcommand{\zs}{\mathbb{Z}}
+\newcommand{\qs}{\mathbb{Q}}
+\newcommand{\ns}{\mathbb{N}}
+\newcommand{\nps}{\mathbb{N}_{+}}
+
+\DeclareMathOperator{\spn}{span}
+
+\newcommand{\polys}[1][\rs]{
+  \mathcal{P} \left( #1 \right)
+}
+
+\newcommand{\polyn}[2][\rs]{
+  \mathcal{P}_{#2} \left( #1 \right)
+}
+
+\newcommand{\lm}[2]{
+  \mathcal{L} \left( #1,#2 \right)
+}
+
+\newcommand{\llm}[1]{
+  \mathcal{L} \left( #1 \right)
+}
+
+\newcommand{\veclist}[2][m] {
+  {#2}_{1},\cdots,{#2}_{#1}
+}
+
+\newcommand{\vecop}[3][m] { % Vector List joined using operator #3
+  {#2}_{1} {#3} \cdots {#3} {#2}_{#1}
+}
+
+\newcommand{\vecsum}[3][m] { % Sum of vectors
+  \svecop[#1]{#2}{#3}{+}
+}
+
+\newcommand{\sveclist}[3][m] { % Scalar * Vector List
+  {#2}_{1}{#3}_{1},\cdots,{#2}_{#1}{#3}_{#1}
+}
+
+\newcommand{\svecop}[4][m] { % Scalar * Vector List joined using operator #4
+  {#2}_{1} {#3}_{1} {#4} \cdots {#4} {#2}_{#1} {#3}_{#1}
+}
+
+\newcommand{\svecsum}[3][m] { % Sum of Scalar * Vector List
+  \svecop[#1]{#2}{#3}{+}
+}
+
+\newcommand{\numlist}[2][m] {
+  {#2}_{1},\cdots,{#2}_{#1}
+}
